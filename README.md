@@ -41,13 +41,13 @@ Once you are in the environment, you can use standard `west` commands. If you ar
    cd zmk-workspace && nix develop --command west update
    ```
 
-2. **Build the firmware**
-   From the `zmk-workspace` directory:
+2. **Build the firmware (Custom Config)**
+   From the project root:
    ```shell
-   # Build for Sofle left half on nice_nano
-   nix develop --command west build -s zmk.git/app -b nice_nano -- -DSHIELD=sofle_left
+   # Build for do52pro left half on nice_nano
+   nix develop --command bash -c "cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -- -DSHIELD=do52pro_left -DZMK_CONFIG=\"/home/df/projects/zephyr-env/config\""
 
-   # Build for Sofle right half on nice_nano (into separate build dir)
-   nix develop --command west build -s zmk.git/app -b nice_nano -d build/right -- -DSHIELD=sofle_right
+   # Build for do52pro right half on nice_nano
+   nix develop --command bash -c "cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -d build/right -- -DSHIELD=do52pro_right -DZMK_CONFIG=\"/home/df/projects/zephyr-env/config\""
    ```
-   The `.uf2` files will be in `build/zephyr/zmk.uf2` and `build/right/zephyr/zmk.uf2` respectively.
+   The `.uf2` files will be in `zmk-workspace/build/zephyr/zmk.uf2` and `zmk-workspace/build/right/zephyr/zmk.uf2`.
