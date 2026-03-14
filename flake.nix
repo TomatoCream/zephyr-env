@@ -49,6 +49,7 @@
             pkgs.dfu-util             # Often needed for flashing nice_nano
             pkgs.ccache               # Good for build caching
             pkgs.git                  # Needed by west
+            pkgs.just                 # For easy command execution
           ];
 
           # Establish environment variables that west and Zephyr SDK expect
