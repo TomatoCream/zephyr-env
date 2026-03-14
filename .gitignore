@@ -2,5 +2,5 @@ result
 .direnv/
 build/
 zmk-workspace/
-*.uf2
+target/
 .cache/

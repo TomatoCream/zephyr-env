@@ -1,12 +1,13 @@
 # ZMK Build commands
 
-# Build both sides and copy to root
+# Build both sides and copy to target/
 build: build-left build-right
-	cp zmk-workspace/build/zephyr/zmk.uf2 ./do52pro_left.uf2
-	cp zmk-workspace/build/right/zephyr/zmk.uf2 ./do52pro_right.uf2
-	@echo "✅ Build complete! Flash using:"
-	@echo "   - ./do52pro_left.uf2"
-	@echo "   - ./do52pro_right.uf2"
+	mkdir -p target
+	cp zmk-workspace/build/zephyr/zmk.uf2 ./target/do52pro_left.uf2
+	cp zmk-workspace/build/right/zephyr/zmk.uf2 ./target/do52pro_right.uf2
+	@echo "✅ Build complete! Files are in target/:"
+	@echo "   - target/do52pro_left.uf2"
+	@echo "   - target/do52pro_right.uf2"
 
 # Build the left half
 build-left:
@@ -19,4 +20,4 @@ build-right:
 # Clean build artifacts
 clean:
 	rm -rf zmk-workspace/build
-	rm -f *.uf2
+	rm -rf target/
