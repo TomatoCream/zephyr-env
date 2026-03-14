@@ -4,9 +4,6 @@ FLASH_MOUNT := "/run/media/df/NICENANO"
 
 # Build both sides and copy to target/
 build: build-left build-right
-	mkdir -p target
-	cp zmk-workspace/build/zephyr/zmk.uf2 ./target/do52pro_left.uf2
-	cp zmk-workspace/build/right/zephyr/zmk.uf2 ./target/do52pro_right.uf2
 	@echo "✅ Build complete! Files are in target/:"
 	@echo "   - target/do52pro_left.uf2"
 	@echo "   - target/do52pro_right.uf2"
@@ -17,6 +14,8 @@ build-left: build-left-v2
 # Build the left half (v2)
 build-left-v2:
 	cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -- -DSHIELD=do52pro_left -DZMK_CONFIG="{{invocation_directory()}}/config"
+	mkdir -p target
+	cp zmk-workspace/build/zephyr/zmk.uf2 ./target/do52pro_left.uf2
 
 # Build the right half (v2 is default for nice_nano in this ZMK version)
 build-right: build-right-v2
@@ -24,6 +23,8 @@ build-right: build-right-v2
 # Build the right half (v2)
 build-right-v2:
 	cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -d build/right -- -DSHIELD=do52pro_right -DZMK_CONFIG="{{invocation_directory()}}/config"
+	mkdir -p target
+	cp zmk-workspace/build/right/zephyr/zmk.uf2 ./target/do52pro_right.uf2
 
 # Flash the left half (ensure NICENANO is in bootloader mode)
 flash-left:
