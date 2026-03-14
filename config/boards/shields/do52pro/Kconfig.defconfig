@@ -1,4 +1,4 @@
-if SHIELD_DO52PRO_LEFT
+if SHIELD_DO52PRO_RIGHT
 
 config ZMK_KEYBOARD_NAME
     default "do52pro"
