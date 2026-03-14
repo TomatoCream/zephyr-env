@@ -61,7 +61,7 @@
             
             echo "⌨️  ZMK Zephyr environment initialized!"
             echo "   • MCU Target: nRF52840 (arm-zephyr-eabi)"
-            echo "   • Board: nice_nano (v2 is default)"
+            echo "   • Board: nice_nano"
             echo ""
             echo "To initialize ZMK:"
             echo "  west init -l app/"

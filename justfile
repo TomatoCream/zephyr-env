@@ -8,20 +8,14 @@ build: build-left build-right
 	@echo "   - target/do52pro_left.uf2"
 	@echo "   - target/do52pro_right.uf2"
 
-# Build the left half (v2 is default for nice_nano in this ZMK version)
-build-left: build-left-v2
-
-# Build the left half (v2)
-build-left-v2:
+# Build the left half
+build-left:
 	cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -- -DSHIELD=do52pro_left -DZMK_CONFIG="{{invocation_directory()}}/config"
 	mkdir -p target
 	cp zmk-workspace/build/zephyr/zmk.uf2 ./target/do52pro_left.uf2
 
-# Build the right half (v2 is default for nice_nano in this ZMK version)
-build-right: build-right-v2
-
-# Build the right half (v2)
-build-right-v2:
+# Build the right half
+build-right:
 	cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -d build/right -- -DSHIELD=do52pro_right -DZMK_CONFIG="{{invocation_directory()}}/config"
 	mkdir -p target
 	cp zmk-workspace/build/right/zephyr/zmk.uf2 ./target/do52pro_right.uf2
@@ -61,6 +55,27 @@ build-flash-left: build-left flash-left
 
 # Build and flash the right half
 build-flash-right: build-right flash-right
+
+# Build the sofle left half (backup)
+build-sofle-left:
+        cd zmk-workspace && west build -p -s zmk.git/app -b nice_nano -- -DSHIELD=sofle_left -DZMK_CONFIG="{{invocation_directory()}}/config"
+        mkdir -p target
+        cp zmk-workspace/build/zephyr/zmk.uf2 ./target/sofle_left.uf2
+
+# Flash the sofle left half (ensure NICENANO is in bootloader mode)
+flash-sofle-left:
+        @DEV=$(lsblk -no NAME,LABEL | grep "NICENANO" | awk '{print "/dev/"$$1}') && \
+        if [ -n "$$DEV" ]; then \
+                if [ ! -d {{FLASH_MOUNT}} ]; then \
+                        echo "🔍 Mounting NICENANO ($$DEV)..."; \
+                        udisksctl mount -b $$DEV || true; \
+                fi; \
+                echo "⚡ Flashing sofle left..."; \
+                cp target/sofle_left.uf2 {{FLASH_MOUNT}}/; \
+        else \
+                echo "❌ NICENANO device not found. Did you double-tap the reset button?"; \
+                exit 1; \
+        fi
 
 # Clean build artifacts
 clean:
